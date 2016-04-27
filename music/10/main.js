@@ -113,7 +113,7 @@ $(function() {
             if (l < ranges.length) {
                 var r = ranges[l];
                 displayValue += ' ' + r.active.toFixed(4);
-                displayValue += ' ' + (r.next || 0).toFixed(4);
+                //displayValue += ' ' + (r.next || 0).toFixed(4);
                 displayValue += ' ' + formatNumber(r.start, 5) + '-' + formatNumber(r.end, 5);
                 displayValue += ' ' + r.count;
             }
@@ -140,7 +140,7 @@ $(function() {
 
         var v = Math.random() * 50 - 25;
 
-        var t = Math.floor(200 + v);
+        var t = Math.floor(400 + v);
 
         setTimeout(function() {
             next();

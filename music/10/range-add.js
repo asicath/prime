@@ -69,11 +69,13 @@ var range = (function() {
     exports.getRangeAt = function(n, intervalCount) {
 
         // make sure we've got enough primes
+        //var target = Math.floor(Math.sqrt(n));
+        var target = Math.floor(n/2);
         createPrimesTo(n);
 
         // find the max prime for this number
         var iMax = primes.length - 1;
-        while (primes[iMax].n > n) { // ?? Could make this sqrt n
+        while (iMax > 0 && primes[iMax].n > target) { // ?? Could make this sqrt n
             iMax -= 1;
         }
 
@@ -116,7 +118,7 @@ var range = (function() {
 
         var next = ranges[j];
         var prev = ranges[j-1];
-        if (next.active > prev.next) {
+        if (next.active > prev.active) {
             //console.log('needs step down');
 
             // reduce on the front

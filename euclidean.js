@@ -3,7 +3,7 @@
 
 
 
-gcd(10, 5);
+console.log(gcd(10, 1));
 
 
 function gcd(a, b) {
