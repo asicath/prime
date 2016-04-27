@@ -1,51 +1,39 @@
 $(function() {
 
-    var loud = 0.3;
+    var notes = {
+        a3: {octave: 3, note: "A", freq: 220.00},
+        b3: {octave: 3, note: "B", freq: 246.94},
+        c4: {octave: 4, note: "C",  freq: 261.63},
+        d4: {octave: 4, note: "D", freq: 293.66},
+        e4: {octave: 4, note: "E", freq: 329.63},
+        f4: {octave: 4, note: "F", freq: 349.23},
+        g4: {octave: 4, note: "G", freq: 392.00},
 
+        a4: {octave: 4, note: "A", freq: 440},
+        b4: {octave: 4, note: "B", freq: 493.88},
+        c5: {octave: 5, note: "C", freq: 523.25 },
+        d5: {octave: 5, note: "D", freq: 587.33 },
+        e5: {octave: 5, note: "E", freq: 659.26 },
+        f5: {octave: 5, note: "F", freq: 698.46 },
+        g5: {octave: 5, note: "G", freq: 783.99 }
+    };
 
+    var sevenHigh = [notes.a4, notes.b4, notes.c5, notes.d5, notes.e5, notes.f5, notes.g5];
 
-    var sevenHigh = [
-        {octave: 4, note: "A", freq: 440},
-        {octave: 4, note: "B", freq: 493.88},
-        {octave: 5, note: "C", freq: 523.25 },
-        {octave: 5, note: "D", freq: 587.33 },
-        {octave: 5, note: "E", freq: 659.26 },
-        {octave: 5, note: "F", freq: 698.46 },
-        {octave: 5, note: "G", freq: 783.99 }
-
-    ];
-
-    var sevenLow = [
-        {octave: 3, note: "A", freq: 220.00},
-        {octave: 3, note: "B", freq: 246.94},
-        {octave: 4, note: "C",  freq: 261.63},
-        {octave: 4, note: "D", freq: 293.66},
-        {octave: 4, note: "E", freq: 329.63},
-        {octave: 4, note: "F", freq: 349.23},
-        {octave: 4, note: "G", freq: 392.00}
-    ];
-
-    var three = [
-        {octave: 4, note: "C",  freq: 261.63},
-        {octave: 4, note: "D", freq: 293.66},
-        {octave: 4, note: "E", freq: 329.63},
-        {octave: 4, note: "F", freq: 349.23}
-    ];
-
-
+    var sevenLow = [notes.a3, notes.b3, notes.c4, notes.d4, notes.e4, notes.f4, notes.g4];
 
     var twelve = [
-        {octave: 3, note: "A", freq: 220.00},
+        notes.a3,
         {octave: 3, note: "A#", freq: 233.08},
-        {octave: 3, note: "B", freq: 246.94},
-        {octave: 4, note: "C",  freq: 261.63},
+        notes.b3,
+        notes.c4,
         {octave: 4, note: "C#", freq: 277.18},
-        {octave: 4, note: "D", freq: 293.66},
+        notes.d4,
         {octave: 4, note: "D#", freq: 311.13},
-        {octave: 4, note: "E", freq: 329.63},
-        {octave: 4, note: "F", freq: 349.23},
+        notes.e4,
+        notes.f4,
         {octave: 4, note: "F#", freq: 369.99},
-        {octave: 4, note: "G", freq: 392.00},
+        notes.g4,
         {octave: 4, note: "G#", freq: 415.30}
     ];
 
@@ -95,8 +83,8 @@ $(function() {
         for (var l = 0; l < notes.length; l++) {
             var note = notes[l];
 
+            // set the note
             var loud = note.isActive ? 0.2 : 0;
-
             var name = note.note + note.octave;
             pool.set(name, note.freq, loud);
 
@@ -126,6 +114,15 @@ $(function() {
         n += 1;
     }
 
+    function silence() {
+        for (var l = 0; l < notes.length; l++) {
+            var note = notes[l];
+            var loud = 0;
+            var name = note.note + note.octave;
+            pool.set(name, note.freq, loud);
+        }
+    }
+
     function setupDisplay() {
         $('#display').append('<div id="n"></div>')
         for (var l = 0; l < notes.length; l++) {
@@ -135,22 +132,38 @@ $(function() {
         }
     }
 
+    function setupControls() {
+        $('#pause').on('click', function() {
+            if (running) {
+                $(this).addClass('active');
+                running = false;
+                silence();
+            }
+            else {
+                $(this).removeClass('active');
+                startWithRandomDelay();
+            }
 
-    function addDelay() {
+        });
+    }
 
+    var running = false;
+    function startWithRandomDelay() {
+        running = true;
         var v = Math.random() * 50 - 25;
 
         var t = Math.floor(400 + v);
 
         setTimeout(function() {
+            if (!running) return;
             next();
-            addDelay();
+            startWithRandomDelay();
         }, t);
     }
 
-
     setupDisplay();
-    addDelay();
+    setupControls();
+    startWithRandomDelay();
 });
 
 

@@ -20,7 +20,28 @@
             text-align: right;
         }
         .btn {
-            width: 100%;
+            cursor: pointer;
+            background-color: #333;
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 0.5em;
+        }
+        .btn:hover {
+            border: 1px solid #fff;
+            color:#fff;
+            background-color: #666;
+        }
+        .btn.active {
+            border: 1px solid #c00;
+            color:#c00;
+            background-color: #600;
+        }
+
+        #control {
+            margin-top: 1em;
+        }
+        #pause {
+
         }
     </style>
 
@@ -32,7 +53,10 @@
     <script type="text/javascript" src="range-add.js"></script>
     <script type="text/javascript" src="main.js"></script>
 
-    <div id="display">
+    <div id="display"></div>
+
+    <div id="control">
+        <div id="pause" class="btn">pause</div>
 
     </div>
 
